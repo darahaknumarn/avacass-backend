@@ -1,44 +1,36 @@
 package hanuman.team
 
-class Customer {
-    String name
-    String email
+import hanuman.team.base.BaseDomain
+
+class Customer extends BaseDomain {
+    String code
+    String firstName
+    String lastName
     String phone
-    String address1
-    String address2
-    String mobile
-    String webSite
-    String accountNumber
-    Integer currencyId
-    Integer cityId
-    String fax
-    String note
+    String email
+    String image
+    String remark
+    Boolean isSubscribed =false
+    String username
 
-    String nameKh
-    String vatTin
-    String addressKh
-
-//    static hasMany = [invoice:Invoice,customerPayment:CustomerPayment]
-//    static belongsTo = [currency:Currency]
-//    static hasOne = [city:City]
+    static hasMany = [deliveryAddress:DeliveryAddress]
 
 
     static constraints = {
-        name nullable: true
-        email nullable: true
+        firstName nullable: true
+        lastName nullable: true
         phone nullable: true
-        address1 nullable: true
-        address2 nullable: true
-        mobile nullable: true
-        webSite nullable: true
-        accountNumber nullable: true
-        fax nullable: true
-        note nullable: true
-        note tyep:'text'
-        currencyId nullable:true
-        cityId nullable: true
-        nameKh nullable: true
-        vatTin nullable: true
-        addressKh nullable: true
+        email nullable:  true
+        image nullable:  true
+        remark sqlType :'text' , nullable: true
+        isSubscribed nullable: true
+        username nullable: true
+
+        deliveryAddress cascade: "all-delete-orphan"
+
+        dateCreated nullable: true
+        lastUpdated nullable: true
+        createdBy nullable:true
+        lastUpdateBy nullable:true
     }
 }

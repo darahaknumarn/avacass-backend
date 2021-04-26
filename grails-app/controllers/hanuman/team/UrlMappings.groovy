@@ -8,7 +8,11 @@ class UrlMappings {
                 // apply constraints here
             }
         }
+        "/api/orders"(resources: "Orders")
         "/api/customer"(resources: "Customer")
+        "/api/category"(resources: "Category")
+        "/api/product"(resources:"Product" )
+        "/api/vendor"(resources:"Vendor")
 
 
     }

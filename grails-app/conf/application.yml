@@ -103,12 +103,11 @@ environments:
     development:
         dataSource:
             dbCreate: update
-            url: jdbc:mysql://192.168.1.10:3306/dev_bunly?useUnicode=yes&characterEncoding=UTF-8
+            url: jdbc:mysql://192.168.1.10:3306/dev_avacass?useUnicode=yes&characterEncoding=UTF-8
     test:
         dataSource:
             dbCreate: update
-            url: jdbc:mysql://127.0.0.1:3306/staging_bunly?useUnicode=yes&characterEncoding=UTF-8
-            #            jndiName : java:comp/env/ProBaku
+            url: jdbc:mysql://127.0.0.1:3306/dev_avacass?useUnicode=yes&characterEncoding=UTF-8
             properties:
                 jmxEnabled: true
                 initialSize: 5
@@ -131,9 +130,8 @@ environments:
     production:
         dataSource:
             dbCreate: update
-            url: jdbc:mysql://127.0.0.1:3306/staging_bunly?useUnicode=yes&characterEncoding=UTF-8
-            #            url: jdbc:mysql://192.168.1.10:3306 /dev_jphea?useUnicode=yes&characterEncoding=UTF-8
-            #            jndiName : java:comp/env/ProJphea
+            url: jdbc:mysql://127.0.0.1:3306/pro_avacass?useUnicode=yes&characterEncoding=UTF-8
+            password: 'Online@!##S123'
             properties:
                 jmxEnabled: true
                 initialSize: 5
@@ -177,7 +175,7 @@ environments:
         grails:
             redis:
                 host: "127.0.0.1"
-                password: V5-yyWDUG7=B[
+                password: HT@R3dI$@2021
 
 ---
 grails:
