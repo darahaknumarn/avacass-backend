@@ -50,6 +50,9 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
     @Override
     def show() {
         def object =Orders.get(params.id).properties
+
+        object.orderDetail =  object.orderDetail.findAll {it.isDeleted == false }
+
         render JSONFormat.respondSingleObject(object) as JSON
     }
 

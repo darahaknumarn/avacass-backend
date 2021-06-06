@@ -1,4 +1,8 @@
 -- done
+INSERT INTO `requestmap` (`version`, `config_attribute`, `url`) VALUES ('0', 'isAuthenticated()', '/api/deliveryAddress');
+
+
+-- done
 INSERT INTO `enumerations` (`e_type`, `is_active`, `is_deleted`, `code`, `name`, `is_default`, `description`,version) VALUES
 ('PROVINCE', b'1', b'0', 'pp', 'Phnom Penh', b'1', 'រាជធានីភ្នំពេញ' , 0);
 

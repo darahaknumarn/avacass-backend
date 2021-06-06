@@ -13,6 +13,7 @@ class UrlMappings {
         "/api/category"(resources: "Category")
         "/api/product"(resources:"Product" )
         "/api/vendor"(resources:"Vendor")
+        "/api/deliveryAddress"(resources:"DeliveryAddress" )
 
 
     }

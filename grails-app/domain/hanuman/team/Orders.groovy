@@ -28,7 +28,8 @@ class Orders extends BaseDomain {
     static constraints = {
         dateCreated nullable:true
         lastUpdated nullable:true
-        orderDetail cascade: "all-delete-orphan"
+        orderDetail cascade: "save-update"
+        description nullable: true
 
         createdBy nullable:true
         lastUpdateBy nullable:true
