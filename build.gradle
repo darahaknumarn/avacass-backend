@@ -2,6 +2,7 @@ buildscript {
     repositories {
         mavenLocal()
         maven { url "https://repo.grails.org/grails/core" }
+        maven { url "https://repo.grails.org/artifactory/core" }
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
@@ -22,11 +23,13 @@ apply plugin:"org.grails.grails-gsp"
 
 repositories {
     mavenLocal()
+    maven { url "https://repo.grails.org/artifactory/core" }
     maven { url "https://repo.grails.org/grails/core" }
-    maven { url "http://hanuman.team:8081/repository/core-backend"}
+    maven { url "http://178.128.97.84:8081/repository/core-backend" }
 }
 
 dependencies {
+
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"
@@ -60,9 +63,7 @@ dependencies {
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
     compile "mysql:mysql-connector-java:8.0.16"
-
-    compile 'tech.hanuman:core-backend:1.0.6'
-
+    compile 'tech.hanuman:core-backend:1.1.1'
     compile 'org.grails.plugins:mail:3.0.0'
     compile group: 'org.grails', name: 'grails-web-gsp', version: '3.2.12'
 }
@@ -75,6 +76,7 @@ bootRun {
 }
 
 tasks.withType(Test) {
+
     systemProperty "geb.env", System.getProperty('geb.env')
     systemProperty "geb.build.reportsDir", reporting.file("geb/integrationTest")
     systemProperty "webdriver.chrome.driver", System.getProperty('webdriver.chrome.driver')
