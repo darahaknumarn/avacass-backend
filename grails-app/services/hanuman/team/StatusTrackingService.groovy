@@ -5,7 +5,7 @@ import grails.gorm.transactions.Transactional
 @Transactional
 class StatusTrackingService {
 
-    addStatusTracking(Orders order, String status, String changedName, Long changedId) {
+    def addStatusTracking(Orders order, String status, String changedName, Long changedId) {
         def st = new StatusTracking()
         st.orderId = order.id
         st.changedName = changedName

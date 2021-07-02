@@ -13,6 +13,7 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
     def stockTransactionService
     def springSecurityService
     def statusTrackingService
+    def orderService
 
     OrdersController() {
         super(Orders)
@@ -49,7 +50,7 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
                 ge("dateCreated", fromDate)
             }
             if (toDate) {
-                le("dateCreated", params.date("toDate", "yyyy-MM-dd")?.plus(1)?.clearTime())
+                le("dateCreated", toDate)
             }
             eq("isDeleted" , false)
         }
@@ -90,15 +91,14 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
             render JSONFormat.respondSingleObject(null, StatusCode.Invalid, StatusCode.Invalid.description, getError(orders)) as JSON
             return
         }
-        if ("ACCEPTED" == orders.status.toUpperCase()) {
-            // deduct stock of product, when status order accepted.
-            stockTransactionService.deductStock(orders)
-        }
-        if ("REJECT" == orders.status.toUpperCase()) {
-            // push notification.
-        }
         orders.save(flush: true)
-        statusTrackingService.addStatusTracking(orders, oldStatus, getAuthenticatedUser().toString(), Long.parseLong(getPrincipal().id))
+        // update status need push notification to customer's order/checkout.
+        orderService.pushNotification(orders)
+        // deduct stock of product, when status order accepted.
+        if ("ACCEPTED" == orders.status.toUpperCase())
+            stockTransactionService.deductStock(orders)
+
+        statusTrackingService.addStatusTracking(orders, oldStatus, getAuthenticatedUser().toString(), getPrincipal().id)
         render JSONFormat.respondSingleObject(orders) as JSON
     }
 
