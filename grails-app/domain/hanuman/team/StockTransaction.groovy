@@ -2,9 +2,11 @@ package hanuman.team
 
 class StockTransaction {
     String transactionType  // "Purchase" , "AdjustStock"
-    String refCode
+    String refId // order id
     Long productId
-    Long qty
+    Double qty
+    Float beforeStockQty
+    Float afterStockQty
 
     static constraints = {
 
