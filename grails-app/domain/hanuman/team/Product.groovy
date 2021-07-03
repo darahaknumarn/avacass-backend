@@ -20,6 +20,8 @@ class Product extends BaseDomain{
     Double margin
     Boolean status
     String imageUrl
+    Boolean isTopsSale = false
+    Boolean isRecommend  = false
     static hasMany = [productImage:ProductImage]
     static constraints = {
         createdBy nullable:true

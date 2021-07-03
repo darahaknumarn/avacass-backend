@@ -9,18 +9,17 @@ class ProductController extends SimpleGenericRestfulController<Product> {
     ProductController() {
         super(Product)
     }
+
     @Override
     def index(PaginationCommand paginationCommand){
         def list = Product.createCriteria().list(paginationCommand.params){
-            if(params.categoryId){
-                eq("categoryId" , params.categoryId as Long)
+            if (params.isTopSale) {
+                eq("isTopsSale", Boolean.parseBoolean(params.isTopSale))
             }
-            if(params.title){
-                like("title" , "%${params.title}%")
+            if (params.isRecommend) {
+                eq("isRecommend", Boolean.parseBoolean(params.isRecommend))
             }
         }
-
-
 
         respond JSONFormat.respond(list)
     }
