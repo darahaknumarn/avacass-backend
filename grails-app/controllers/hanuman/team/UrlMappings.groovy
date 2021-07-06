@@ -15,6 +15,10 @@ class UrlMappings {
         "/api/vendor"(resources:"Vendor")
         "/api/deliveryAddress"(resources:"DeliveryAddress" )
 
+        // Banner
+        "/api/banner"(resources:"Banner" )
+
+
 
     }
 }

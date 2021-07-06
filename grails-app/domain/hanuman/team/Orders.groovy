@@ -27,7 +27,7 @@ class Orders extends BaseDomain {
     String status
 
     String rejectReason
-    Date rejectDate = new Date()
+    Date rejectDate
     String rejectBy
 
     static  hasMany = [orderDetail: OrderDetail]
@@ -45,6 +45,7 @@ class Orders extends BaseDomain {
 
         rejectReason nullable: true
         rejectBy nullable: true
+        rejectDate nullable: true
     }
 
     static {

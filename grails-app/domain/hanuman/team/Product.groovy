@@ -22,7 +22,7 @@ class Product extends BaseDomain{
     String imageUrl
     Boolean isTopsSale = false
     Boolean isRecommend  = false
-    static hasMany = [productImage:ProductImage]
+    static hasMany = [productImage:ProductImage, relatedProduct: RelatedProduct]
     static constraints = {
         createdBy nullable:true
         lastUpdateBy nullable:true
@@ -36,5 +36,6 @@ class Product extends BaseDomain{
         sku nullable:true
         imageUrl nullable:true
         productImage cascade: "all-delete-orphan"
+        relatedProduct cascade: "all-delete-orphan"
     }
 }
