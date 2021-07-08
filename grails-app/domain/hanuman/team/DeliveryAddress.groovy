@@ -3,45 +3,34 @@ package hanuman.team
 import hanuman.team.base.BaseDomain
 
 class DeliveryAddress extends BaseDomain{
-    String name
-
-    String firstName
-    String lastName
-    Long countryId
-    String countryName
-    Long cityId
-    String cityName
-    Long districtId
-    String districtName
-    Long communeId
-    String communeName
+    String address
+    String note
     String street
     String houseNo
     String phone
-    Boolean isDefault
+    Boolean isDefault = true
+    String label
+    String icon
+    Double latitude
+    Double longitude
     static belongsTo = [customer:Customer]
     
     static constraints = {
+        latitude nullable:true
+        longitude nullable:true
         dateCreated nullable:true
         lastUpdated nullable:true
         createdBy nullable:true
         lastUpdateBy nullable:true
 
-        name nullable:true           
-        firstName nullable:true
-        lastName nullable: true
-        countryId nullable:true
-        countryName nullable:true
-        cityId nullable:true
-        cityName nullable:true
-        districtId nullable:true
-        districtName nullable:true
-        communeId nullable:true
-        communeName nullable:true
+        address nullable:true, sqlType: 'text'
+        note nullable:true
         street nullable:true
         houseNo nullable:true
         phone nullable:true
         isDefault nullable:true
+        label nullable: true
+        icon nullable: true
 
     }
 }
