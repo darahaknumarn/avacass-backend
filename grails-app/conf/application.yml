@@ -103,11 +103,12 @@ environments:
     development:
         dataSource:
             dbCreate: update
-            url: jdbc:mysql://192.168.1.10:3306/dev_avacass?useUnicode=yes&characterEncoding=UTF-8
+            #url: jdbc:mysql://192.168.1.10:3306/dev_avacass?useUnicode=yes&characterEncoding=UTF-8
+            url: jdbc:mysql://172.30.30.23/avc?useUnicode=yes&characterEncoding=UTF-8
     test:
         dataSource:
             dbCreate: update
-            url: jdbc:mysql://127.0.0.1:3306/dev_avacass?useUnicode=yes&characterEncoding=UTF-8
+            url: jdbc:mysql://127.0.0.1:3306/staging_avacass?useUnicode=yes&characterEncoding=UTF-8
             properties:
                 jmxEnabled: true
                 initialSize: 5
@@ -131,7 +132,7 @@ environments:
         dataSource:
             dbCreate: update
             url: jdbc:mysql://127.0.0.1:3306/staging_avacass?useUnicode=yes&characterEncoding=UTF-8
-#            password: 'Online@!##S123'
+            password: 'Online@!##S123'
             properties:
                 jmxEnabled: true
                 initialSize: 5
@@ -155,7 +156,7 @@ environments:
 grails:
     redis:
         port: 6379
-        database: 1
+        database: 2
         timeout: 2000
         poolConfig:
             testWhileIdle: true
@@ -164,7 +165,7 @@ environments:
     development:
         grails:
             redis:
-                host: "192.168.1.10"
+                host: "172.30.30.23"
                 password: P@ssw0rd
     test:
         grails:
@@ -176,6 +177,16 @@ environments:
             redis:
                 host: "127.0.0.1"
                 password: V5-yyWDUG7=B[
+---
+grails:
+    plugin:
+        awssdk:
+            accessKey: ODSIMOJTKQM24LXMNTDV
+            secretKey: /vpmYb0E0kcQvOFi9xJ8CDyPEB69bNHLEjAGPc7MtsM
+            endpoint: sgp1.digitaloceanspaces.com
+            region: sgp1
+            s3:
+                bucket: avaccas
 
 ---
 grails:
