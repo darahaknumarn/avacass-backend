@@ -1,26 +1,25 @@
 package hanuman.team
 
+import grails.converters.JSON
 import hanuman.simplegenericrestfulcontroller.generic.JSONFormat
 import hanuman.simplegenericrestfulcontroller.generic.PaginationCommand
 import hanuman.simplegenericrestfulcontroller.generic.SimpleGenericRestfulController
+import hanuman.simplegenericrestfulcontroller.generic.StatusCode
 
 class DeliveryAddressController extends SimpleGenericRestfulController<DeliveryAddress>{
-
 
     DeliveryAddressController() {
         super(DeliveryAddress)
     }
-    @Override
-    def index(PaginationCommand paginationCommand){
-        def addrs = DeliveryAddress.createCriteria().list (paginationCommand.params){
-            if(params.customerId){
-                customer {
-                    eq("id" ,  params.customerId as Long)
-                }
 
+    @Override
+    def index(PaginationCommand paginationCommand) {
+        def da = DeliveryAddress.createCriteria().list(paginationCommand.params) {
+            customer {
+                eq("id", params.long("customerId"))
             }
         }
 
-        respond JSONFormat.respond(addrs)
+        render JSONFormat.respond(da, StatusCode.OK) as JSON
     }
 }
