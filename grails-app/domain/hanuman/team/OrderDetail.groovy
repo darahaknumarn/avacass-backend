@@ -13,7 +13,8 @@ class OrderDetail extends BaseDomain{
     Double qty
     Double price
     Double amount
-
+    Integer vendorId
+    String vendorName
     Boolean isDeleted = false
 
     static belongsTo = [orders: Orders]
@@ -26,6 +27,8 @@ class OrderDetail extends BaseDomain{
         lastUpdated nullable:true
         createdBy nullable:true
         lastUpdateBy nullable:true
+        vendorName nullable: true
+        vendorId nullable: true
 
     }
 }

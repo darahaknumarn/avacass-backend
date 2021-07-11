@@ -1,8 +1,8 @@
 package hanuman.team
 
 enum PaymentStatus {
-    PENDING("Pending")
-
+    PENDING("Pending"),
+    PAID("Paid")
     String status
 
     PaymentStatus(String status) {
