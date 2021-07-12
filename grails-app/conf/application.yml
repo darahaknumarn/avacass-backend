@@ -132,7 +132,7 @@ environments:
         dataSource:
             dbCreate: update
             url: jdbc:mysql://127.0.0.1:3306/staging_avacass?useUnicode=yes&characterEncoding=UTF-8
-            password: 'Online@!##S123'
+#            password: 'Online@!##S123'
             properties:
                 jmxEnabled: true
                 initialSize: 5
