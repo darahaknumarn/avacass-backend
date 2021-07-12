@@ -38,10 +38,12 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           distribution: 'adopt'
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
       - name: Build with Gradle
-        run: gradlew check --parallel --continue  
+        run: ./gradlew check --parallel --continue  
       - name: war
-        run: gradlew war
+        run: ./gradlew war
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.1.0
         with:
