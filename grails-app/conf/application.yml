@@ -187,7 +187,6 @@ grails:
             region: sgp1
             s3:
                 bucket: avaccas
-
 ---
 grails:
     cors:
