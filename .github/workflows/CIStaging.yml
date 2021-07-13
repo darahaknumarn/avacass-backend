@@ -43,7 +43,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew check --parallel --continue  
       - name: war
-        run: ./gradlew war
+        run: ./gradlew assemble
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.1.0
         with:
