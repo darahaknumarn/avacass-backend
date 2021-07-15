@@ -55,6 +55,4 @@ jobs:
 
           # Folder to upload from, must end with trailing slash /
           local-dir: "build/libs/"
-          
-
-        
+          state-name: avacass-backoffice-project
