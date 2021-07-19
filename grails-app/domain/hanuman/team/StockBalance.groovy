@@ -3,9 +3,11 @@ package hanuman.team
 import hanuman.team.base.BaseDomain
 
 class StockBalance  extends BaseDomain{
-    Long productId
+//    Long productId
     Float reserveQty
     Float stockBalance
+
+    static belongsTo = [product: Product]
 
     static constraints = {
         lastUpdated nullable: true
