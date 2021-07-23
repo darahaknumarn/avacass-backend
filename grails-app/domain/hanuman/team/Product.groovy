@@ -23,6 +23,8 @@ class Product extends BaseDomain{
     Boolean isTopsSale = false
     Boolean isRecommend  = false
     static hasMany = [productImage:ProductImage, relatedProduct: RelatedProduct]
+
+    static hasOne = [stockBalance: StockBalance]
     static constraints = {
         createdBy nullable:true
         lastUpdateBy nullable:true
@@ -37,5 +39,6 @@ class Product extends BaseDomain{
         imageUrl nullable:true
         productImage cascade: "all-delete-orphan"
         relatedProduct cascade: "all-delete-orphan"
+        stockBalance cascade: "all-delete-orphan"
     }
 }

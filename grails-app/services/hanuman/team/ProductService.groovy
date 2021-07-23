@@ -9,6 +9,9 @@ class ProductService {
         def productImage = product.productImage.find {
             it.isBaseImage == true
         }
+        if (product.stockBalance) {
+            product.stockBalance.product = product
+        }
         product.imageUrl =  productImage?.thumbnailUrl
         return product
     }
