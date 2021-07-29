@@ -9,7 +9,8 @@ class StockTransactionService {
     // deduct stock of product by status "accepted"
     def deductStock(Orders order) {
         order.orderDetail.each { orderDetail ->
-            def sBalance = StockBalance.findByProductId(orderDetail.productId)
+            def product = Product.get(orderDetail.productId)
+            def sBalance = StockBalance.findByProduct(product)
             if (sBalance) {
                 saveStockTransaction(TransactionType.ADJUST_STOCK.status, order.id, orderDetail, sBalance.stockBalance)
 
