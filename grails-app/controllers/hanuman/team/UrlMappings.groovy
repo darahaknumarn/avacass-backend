@@ -18,6 +18,8 @@ class UrlMappings {
         // Banner
         "/api/banner"(resources:"Banner" )
 
+        // Application Configuration
+        "/api/applicationConfiguration/getDeliveryDestination"(controller: "ApplicationConfiguration" , action: "getDeliveryDestination")
 
 
     }
