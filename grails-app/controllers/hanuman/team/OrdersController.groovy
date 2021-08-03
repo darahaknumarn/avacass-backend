@@ -61,7 +61,7 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
     def beforeUpdate(Orders orders) {
         def user = springSecurityService.getCurrentUser()
         if (orders.status.toUpperCase() == "REJECT") {
-            orders.rejectBy = (user.firstName ?: "" + user.lastName ?: "")
+            orders.rejectBy = (user?.firstName ?: "" + user?.lastName ?: "")
             orders.rejectDate = new Date()
         }
         return orders
