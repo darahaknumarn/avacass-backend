@@ -25,7 +25,7 @@ class Orders extends BaseDomain {
     Boolean isEditable = false
     Boolean isDeleted = false
     Boolean isClosed = false
-    String status = OrderStatus.Pending.toString()
+    String status = PaymentStatus.PENDING.status
 
     String rejectReason
     Date rejectDate
