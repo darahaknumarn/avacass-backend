@@ -1,7 +1,10 @@
 package hanuman.team
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import grails.converters.JSON
 import grails.gorm.transactions.Transactional
+import hanuman.notification.Notification
+import hanuman.security.SecUser
 import hanuman.simplegenericrestfulcontroller.generic.JSONFormat
 import hanuman.simplegenericrestfulcontroller.generic.PaginationCommand
 import hanuman.simplegenericrestfulcontroller.generic.RespondDTO
@@ -14,6 +17,8 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
     def springSecurityService
     def statusTrackingService
     def orderService
+    def applicationConfigurationService
+    def notificationContentService
 
     OrdersController() {
         super(Orders)
@@ -55,6 +60,19 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
             eq("isDeleted" , false)
         }
         return list
+    }
+
+    @Override
+    def beforeSave(Orders orders) {
+        orders.orderNo = nextCodeService.getLastCode("Order" , true ,[:])
+        return orders
+    }
+
+    @Override
+    def afterSaved(Orders orders) {
+        // reserve stock
+        stockTransactionService.reserveStock(orders)
+        return orders
     }
 
     @Override

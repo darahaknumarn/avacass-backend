@@ -1,5 +1,8 @@
 package hanuman.team
 
+import grails.converters.JSON
+import grails.plugin.springsecurity.SpringSecurityService
+import hanuman.ApplicationConfiguration
 import hanuman.team.base.BaseDomain
 
 class Product extends BaseDomain{
@@ -40,5 +43,13 @@ class Product extends BaseDomain{
         productImage cascade: "all-delete-orphan"
         relatedProduct cascade: "all-delete-orphan"
         stockBalance cascade: "all-delete-orphan"
+    }
+
+    static {
+        JSON.registerObjectMarshaller(this, { Product pr ->
+            Map result = new LinkedHashMap(pr.properties)
+            result.id = pr.id
+            return result
+        })
     }
 }

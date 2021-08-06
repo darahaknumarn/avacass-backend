@@ -17,10 +17,13 @@ class UrlMappings {
 
         // Banner
         "/api/banner"(resources:"Banner" )
+        // Address schedule
+        "/api/deliverySchedule"(resources: "DeliverySchedule")
+
 
         // Application Configuration
         "/api/applicationConfiguration/getDeliveryDestination"(controller: "ApplicationConfiguration" , action: "getDeliveryDestination")
-
-
+        "/api/applicationConfiguration/getDeliveryTime"(controller: "ApplicationConfiguration" , action: "getDeliveryTime")
+        "/api/applicationConfiguration/minOrderPrice"(controller: "ApplicationConfiguration" , action: "getMinOrderPrice")
     }
 }

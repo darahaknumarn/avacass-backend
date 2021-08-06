@@ -24,7 +24,8 @@ class Orders extends BaseDomain {
     Double deliveryFee
     Boolean isEditable = false
     Boolean isDeleted = false
-    String status
+    Boolean isClosed = false
+    String status = OrderStatus.Pending.toString()
 
     String rejectReason
     Date rejectDate
@@ -52,7 +53,6 @@ class Orders extends BaseDomain {
         JSON.registerObjectMarshaller(this, { Orders order ->
             Map result = new LinkedHashMap(order.properties)
             result.id = order.id
-            result.orderDetail = OrderDetail.findAllByOrders(order)
             return result
         })
     }
