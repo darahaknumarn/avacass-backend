@@ -39,4 +39,16 @@ class ApplicationConfigurationController {
         def deliveryDestination = JSON.parse(min?.value)
         render JSONFormat.respondSingleObject(deliveryDestination, StatusCode.OK) as JSON
     }
+
+    def getDeliveryFee() {
+        def deliveryFee = applicationConfigurationService.getApplicationConfigurationByNameAndIsActive("DeliveryFee")
+        if (!deliveryFee) {
+            render JSONFormat.respondSingleObject(null, StatusCode.OK) as JSON
+            return
+        }
+
+        Map map = [:]
+        map.deliveryFee = Double.parseDouble(deliveryFee?.value)
+        render JSONFormat.respondSingleObject(map, StatusCode.OK) as JSON
+    }
 }
