@@ -17,6 +17,10 @@ class BannerController extends SimpleGenericRestfulController<Banner>{
         def ban = Banner.createCriteria().list(paginationCommand.params) {
             eq("isActive", true)
             order ("orderNumber", "desc")
+
+            if(params.name) {
+                like("name", "%${params.name}%")
+            }
         }
 
         render JSONFormat.respond(ban, StatusCode.OK, "List banner successfully.") as JSON
