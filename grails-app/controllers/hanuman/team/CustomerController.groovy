@@ -37,6 +37,7 @@ class CustomerController extends SimpleGenericRestfulController<Customer>{
     @Override
     def beforeSave(Customer customer){
         customer.code = nextCodeService.getLastCode("Customer" , true , [:])
+        customer.password = (customer.password+customer.username)
         return  customer
     }
 
