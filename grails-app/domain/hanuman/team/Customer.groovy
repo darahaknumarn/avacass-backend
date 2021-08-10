@@ -90,7 +90,7 @@ class Customer extends BaseDomain implements Serializable {
 
     static {
         JSON.registerObjectMarshaller(this, { Customer cus ->
-            Map result = new LinkedHashMap(pr.properties)
+            Map result = new LinkedHashMap(cus.properties)
             result.id = cus.id
             result.deliveryAddress = DeliveryAddress.findAllByCustomer(cus)
             return result
