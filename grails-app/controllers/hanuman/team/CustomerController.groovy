@@ -58,10 +58,6 @@ class CustomerController extends SimpleGenericRestfulController<Customer>{
             render JSONFormat.respond(null, StatusCode.Invalid, getError(cus)) as JSON
             return
         }
-        if (cus.id != getPrincipal().id) {
-            render JSONFormat.respond(null, StatusCode.Invalid, getError(cus)) as JSON
-            return
-        }
 
         cus.save(flush: true)
         render JSONFormat.respondSingleObject(cus) as JSON
