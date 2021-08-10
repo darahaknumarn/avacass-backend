@@ -1,5 +1,6 @@
 package hanuman.team
 
+import grails.converters.JSON
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 import hanuman.security.Role
@@ -85,5 +86,14 @@ class Customer extends BaseDomain implements Serializable {
 
     static mapping = {
         password column: '`password`'
+    }
+
+    static {
+        JSON.registerObjectMarshaller(this, { Customer cus ->
+            Map result = new LinkedHashMap(pr.properties)
+            result.id = cus.id
+            result.deliveryAddress = DeliveryAddress.findAllByCustomer(cus)
+            return result
+        })
     }
 }
