@@ -68,7 +68,7 @@ class Customer extends BaseDomain implements Serializable {
         language nullable: true
         firstName nullable: true
         lastName nullable: true
-        phone nullable: true
+        phone nullable: true, unique: true
         email nullable:  true
         image nullable:  true
         remark sqlType :'text' , nullable: true

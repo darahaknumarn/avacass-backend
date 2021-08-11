@@ -11,6 +11,7 @@ import hanuman.simplegenericrestfulcontroller.generic.StatusCode
 class CustomerController extends SimpleGenericRestfulController<Customer>{
 
     def nextCodeService
+    def applicationConfigurationService
     CustomerController(){
         super(Customer)
     }
@@ -37,7 +38,10 @@ class CustomerController extends SimpleGenericRestfulController<Customer>{
     @Override
     def beforeSave(Customer customer){
         customer.code = nextCodeService.getLastCode("Customer" , true , [:])
-        customer.password = (customer.password+customer.username)
+        String password = applicationConfigurationService.getApplicationConfigurationByNameAndIsActive("Keyword")?.value
+
+        customer.username = customer.phone
+        customer.password = (password+customer.phone)
         return  customer
     }
 
