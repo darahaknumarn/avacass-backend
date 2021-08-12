@@ -53,7 +53,10 @@ class Orders extends BaseDomain {
         JSON.registerObjectMarshaller(this, { Orders order ->
             Map result = new LinkedHashMap(order.properties)
             result.id = order.id
-            result.customerName = Customer.get(order.customerId)?.phone
+            def customer =  Customer.get(order.customerId)
+            result.customerName = customer?.phone
+            result.phoneNumber = customer?.phone
+            result.deliveryAddress = DeliveryAddress.get(order.deliveryAddressId)
             return result
         })
     }
