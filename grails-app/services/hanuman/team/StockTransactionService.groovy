@@ -6,6 +6,20 @@ import javax.validation.constraints.NotNull
 @Transactional
 class StockTransactionService {
 
+    // reserve stock of product by new order
+    def reserveStock(Orders order) {
+        order.orderDetail.each { orderDetail ->
+            def product = Product.get(orderDetail.productId)
+            def sBalance = StockBalance.findByProduct(product)
+            if (sBalance) {
+                saveStockTransaction(TransactionType.PURCHASE.status, order.id, orderDetail)
+
+                sBalance.reserveQty += orderDetail.qty
+                sBalance.save(flush: true)
+            }
+        }
+    }
+
     // deduct stock of product by status "accepted"
     def deductStock(Orders order) {
         order.orderDetail.each { orderDetail ->

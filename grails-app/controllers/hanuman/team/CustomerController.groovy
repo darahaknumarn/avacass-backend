@@ -1,6 +1,7 @@
 package hanuman.team
 
 import grails.converters.JSON
+import grails.gorm.transactions.Transactional
 import hanuman.simplegenericrestfulcontroller.generic.JSONFormat
 import hanuman.simplegenericrestfulcontroller.generic.PaginationCommand
 import hanuman.simplegenericrestfulcontroller.generic.SimpleGenericRestfulController
@@ -10,6 +11,7 @@ import hanuman.simplegenericrestfulcontroller.generic.StatusCode
 class CustomerController extends SimpleGenericRestfulController<Customer>{
 
     def nextCodeService
+    def applicationConfigurationService
     CustomerController(){
         super(Customer)
     }
@@ -25,21 +27,44 @@ class CustomerController extends SimpleGenericRestfulController<Customer>{
             if(params.email){
                 like('email' , "%${params.email}%")
             }
+            if(params.username){
+                like('username' , "%${params.username}%")
+            }
 
         }
         respond JSONFormat.respond(customerList)
-    }
-    @Override
-    def show() {
-
-        def data =Customer.get(params.id).properties
-        respond JSONFormat.respondSingleObject(data)
     }
 
     @Override
     def beforeSave(Customer customer){
         customer.code = nextCodeService.getLastCode("Customer" , true , [:])
+        String password = applicationConfigurationService.getApplicationConfigurationByNameAndIsActive("Keyword")?.value
+
+        customer.username = customer.phone
+        customer.password = (password+customer.phone)
         return  customer
+    }
+
+    @Transactional
+    @Override
+    def updateAction() {
+        def cus = Customer.get(params.long("id"))
+        if (cus == null) {
+            transactionStatus.setRollbackOnly()
+            notFound()
+            return
+        }
+        def requestJson = request.JSON
+        bindData(cus, requestJson)
+        cus.validate()
+        if (cus.hasErrors()) {
+            transactionStatus.setRollbackOnly()
+            render JSONFormat.respond(null, StatusCode.Invalid, getError(cus)) as JSON
+            return
+        }
+
+        cus.save(flush: true)
+        render JSONFormat.respondSingleObject(cus) as JSON
     }
 
 }

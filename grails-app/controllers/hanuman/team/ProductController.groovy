@@ -19,15 +19,19 @@ class ProductController extends SimpleGenericRestfulController<Product> {
             if (params.isRecommend) {
                 eq("isRecommend", Boolean.parseBoolean(params.isRecommend))
             }
+
+            if (params.name) {
+                like("title", "%${params.name}%")
+            }
+            if (params.categoryId) {
+                eq("categoryId", params.long("categoryId"))
+            }
+            if (params.vendorId) {
+                eq("vendorId", params.long("vendorId"))
+            }
         }
 
         respond JSONFormat.respond(list)
-    }
-    @Override
-    def show() {
-
-        def data =Product.get(params.id).properties
-        respond JSONFormat.respondSingleObject(data)
     }
 
     @Override
