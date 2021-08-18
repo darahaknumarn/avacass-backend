@@ -12,6 +12,8 @@ class SeedDataService {
 
     def addReqeustmap(){
         new Requestmap(url: "/api/orderActivity/**",configAttribute: "isAuthenticated()").save()
+        new Requestmap(url: "/api/orderActivity/comment/**", configAttribute: "isAuthenticated()").save()
+
 
         springSecurityService.clearCachedRequestmaps()
     }

@@ -20,6 +20,8 @@ class UrlMappings {
         // Address schedule
         "/api/deliverySchedule"(resources: "DeliverySchedule")
         "/api/orderActivity"(resources:"OrderActivity")
+        "/api/orderActivity/comment"(controller:"OrderActivity", action: "addComment")
+
 
 
         // Application Configuration

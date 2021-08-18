@@ -29,10 +29,10 @@ class OrderService {
             case "REJECT" : shortDescription = "${body} ${orders.rejectReason}"
                 break
 
-            case "DELIVERED" : shortDescription = "${body} ការបញ្ជាទិញរបស់អ្នក ${orders.orderNo} កំពង់ដឹកជញ្ជូនទៅ។"
+            case "DELIVERED" : shortDescription = body
                 break
 
-            case "ACCEPTED" : shortDescription = "${body} ការបញ្ជាទិញរបស់អ្នក​ ${orders.orderNo} បានទទួល។"
+            case "ACCEPTED" : shortDescription = body
                 break
 
             default: shortDescription = body
@@ -43,13 +43,34 @@ class OrderService {
 
         if(!"PENDING".equals(orders.paymentStatus.toUpperCase())) {
             title = "Payment Update"
-            shortDescription = "Thank you for your payment of order ${orders.orderNo} អរគុណសម្រាប់ការទូទាត់ប្រាក់​ របស់អ្នក។"
+            shortDescription = "Thank you for your payment of order ${orders.orderNo}"
         }
 
         Notification ntc = new Notification(
                 userDevices: username,
                 title: title,
                 shortDescription: shortDescription,
+                nType: "Transaction",
+                content: order
+        )
+        notificationContentService.pushNotification(ntc)
+    }
+
+    /**
+     * Push Notification, when update / chane assignee
+     * @param orders
+     * @return
+     */
+    def pushNotificationToAssignee(Orders orders) {
+        JSON json = new JSON(orders)
+        HashMap<String, Object> order = new ObjectMapper().readValue(json.toString(), HashMap.class)
+
+        // get customer base on orders/checkout of product.
+        def username = SecUser.findAllById(orders.assignTo).username
+        Notification ntc = new Notification(
+                userDevices: username,
+                title: "Order Update",
+                shortDescription: "This order ${orders.orderNo} at Avacass has been assigne to you",
                 nType: "Transaction",
                 content: order
         )

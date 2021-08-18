@@ -77,16 +77,11 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
 
     @Override
     def beforeUpdate(Orders order) {
-
         def user = springSecurityService.getCurrentUser()
         if (order.status.toUpperCase() == "REJECT") {
             order.rejectBy = (user?.firstName ?: "" + user?.lastName ?: "")
             order.rejectDate = new Date()
         }
-
-
-
-
         return order
     }
 
@@ -102,17 +97,24 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
             return
         }
         def user = springSecurityService.getCurrentUser()
-        String oldStatus = orders.status
+        String currentUsername = (user?.firstName ?: "" + user?.lastName ?: "")
         def json = request.JSON
 
-//        check assigneee
-        if(json.assignTo != orders.assignTo){
-            def assigneee = SecUser.get(orders.assignTo)
-            orderActivityService.addActivity(user?.id , OrderActivityType.ASSIGN , "assigned to: <b>${assigneee?.firstName} ${assigneee?.lastName} </b>" , orders.id )
+        // check assignee
+        if (json.assignTo) {
+            if(json.assignTo != orders.assignTo){
+                def secUser = SecUser.get(json.assignTo as Long)
+                orderActivityService.addActivity(user?.id as Long ,currentUsername, OrderActivityType.ASSIGN , "assigned to <b>${(secUser?.firstName ?: "" + secUser?.lastName ?: "")}</b>" , orders.id )
+                // push notification to assignee
+                orderService.pushNotificationToAssignee(orders)
+            }
         }
-//        check on change on status
-        if(json.status != orders.status){
-            orderActivityService.addActivity(user?.id , OrderActivityType.CHANG_STATUS , "change status from  <b>${json.status}</b> to <b>${orders.status}</b>" , orders.id )
+
+        if (json.status) {
+            // check on change on status
+            if(json.status != orders.status){
+                orderActivityService.addActivity(user?.id as Long, currentUsername, OrderActivityType.CHANG_STATUS , "change status from  <b>${json.status}</b> to <b>${orders.status}</b>" , orders.id )
+            }
         }
 
         orders.properties = json
@@ -130,13 +132,12 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
             return
         }
         orders.save(flush: true)
-        // update status need push notification to customer's order/checkout.
-        orderService.pushNotification(orders)
         // deduct stock of product, when status order accepted.
         if ("ACCEPTED" == orders.status.toUpperCase())
             stockTransactionService.deductStock(orders)
 
-        statusTrackingService.addStatusTracking(orders, oldStatus, getAuthenticatedUser().toString(), getPrincipal().id)
+        // update all change status need push notification to customer's order/checkout.
+        orderService.pushNotification(orders)
         render JSONFormat.respondSingleObject(orders) as JSON
     }
 
@@ -147,11 +148,4 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
         order.save(flush:true )
         respond JSONFormat.respondSingleObject(order)
     }
-    def comment(){
-        def json =request.JSON
-        def user = springSecurityService.getCurrentUser()
-        orderActivityService.addActivity(user?.id , OrderActivityType.COMMENT , "<span style='color:green'>${json.comment} </span>" , json.orderId )
-
-    }
-
 }
