@@ -26,6 +26,7 @@ class Orders extends BaseDomain {
     Boolean isDeleted = false
     Boolean isClosed = false
     String status = PaymentStatus.PENDING.status
+    Integer assignTo
 
     String rejectReason
     Date rejectDate
@@ -47,6 +48,7 @@ class Orders extends BaseDomain {
         rejectReason nullable: true
         rejectBy nullable: true
         rejectDate nullable: true
+        assignTo nullable:  true 
     }
 
     static {

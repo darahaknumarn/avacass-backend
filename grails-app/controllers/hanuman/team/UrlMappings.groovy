@@ -19,6 +19,7 @@ class UrlMappings {
         "/api/banner"(resources:"Banner" )
         // Address schedule
         "/api/deliverySchedule"(resources: "DeliverySchedule")
+        "/api/orderActivity"(resources:"OrderActivity")
 
 
         // Application Configuration

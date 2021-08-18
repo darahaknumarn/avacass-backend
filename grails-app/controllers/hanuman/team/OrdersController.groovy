@@ -1,9 +1,8 @@
 package hanuman.team
 
-import com.fasterxml.jackson.databind.ObjectMapper
+
 import grails.converters.JSON
 import grails.gorm.transactions.Transactional
-import hanuman.notification.Notification
 import hanuman.security.SecUser
 import hanuman.simplegenericrestfulcontroller.generic.JSONFormat
 import hanuman.simplegenericrestfulcontroller.generic.PaginationCommand
@@ -19,7 +18,7 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
     def orderService
     def applicationConfigurationService
     def notificationContentService
-
+    def orderActivityService
     OrdersController() {
         super(Orders)
     }
@@ -75,28 +74,48 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
         return orders
     }
 
+
     @Override
-    def beforeUpdate(Orders orders) {
+    def beforeUpdate(Orders order) {
+
         def user = springSecurityService.getCurrentUser()
-        if (orders.status.toUpperCase() == "REJECT") {
-            orders.rejectBy = (user?.firstName ?: "" + user?.lastName ?: "")
-            orders.rejectDate = new Date()
+        if (order.status.toUpperCase() == "REJECT") {
+            order.rejectBy = (user?.firstName ?: "" + user?.lastName ?: "")
+            order.rejectDate = new Date()
         }
-        return orders
+
+
+
+
+        return order
     }
+
+
 
     @Override
     @Transactional
-    def update() {
+    def updateAction() {
         def orders = Orders.get(params.id)
         if (orders == null) {
             transactionStatus.setRollbackOnly()
             notFound()
             return
         }
+        def user = springSecurityService.getCurrentUser()
         String oldStatus = orders.status
+        def json = request.JSON
 
-        orders.properties = request.JSON
+//        check assigneee
+        if(json.assignTo != orders.assignTo){
+            def assigneee = SecUser.get(orders.assignTo)
+            orderActivityService.addActivity(user?.id , OrderActivityType.ASSIGN , "assigned to: <b>${assigneee?.firstName} ${assigneee?.lastName} </b>" , orders.id )
+        }
+//        check on change on status
+        if(json.status != orders.status){
+            orderActivityService.addActivity(user?.id , OrderActivityType.CHANG_STATUS , "change status from  <b>${json.status}</b> to <b>${orders.status}</b>" , orders.id )
+        }
+
+        orders.properties = json
         orders = beforeUpdate(orders)
 
         if (orders.getClass() == RespondDTO) {
@@ -128,4 +147,11 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
         order.save(flush:true )
         respond JSONFormat.respondSingleObject(order)
     }
+    def comment(){
+        def json =request.JSON
+        def user = springSecurityService.getCurrentUser()
+        orderActivityService.addActivity(user?.id , OrderActivityType.COMMENT , "<span style='color:green'>${json.comment} </span>" , json.orderId )
+
+    }
+
 }

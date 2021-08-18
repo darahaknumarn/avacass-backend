@@ -103,7 +103,7 @@ environments:
     development:
         dataSource:
             dbCreate: update
-            url: jdbc:mysql://192.168.1.10:3306/dev_avacass?useUnicode=yes&characterEncoding=UTF-8
+            url: jdbc:mysql://127.0.0.1:3306/dev_avacass?useUnicode=yes&characterEncoding=UTF-8
 #            url: jdbc:mysql://172.30.30.23/avc?useUnicode=yes&characterEncoding=UTF-8
     test:
         dataSource:
@@ -160,13 +160,13 @@ grails:
         timeout: 2000
         poolConfig:
             testWhileIdle: true
-            maxTotal: 500
+            maxTotal: 500r
 environments:
     development:
         grails:
             redis:
-                host: "192.168.1.10"
-                password: P@ssw0rd
+                host: "127.0.0.1"
+#                password: P@ssw0rd
     test:
         grails:
             redis:
