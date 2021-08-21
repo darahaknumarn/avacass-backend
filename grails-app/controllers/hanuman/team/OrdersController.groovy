@@ -114,6 +114,9 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
             // check on change on status
             if(json.status != orders.status){
                 orderActivityService.addActivity(user?.id as Long, currentUsername, OrderActivityType.CHANG_STATUS , "change status from  <b>${json.status}</b> to <b>${orders.status}</b>" , orders.id )
+
+                // update all change status need push notification to customer's order/checkout.
+                orderService.pushNotification(orders, json.status as String)
             }
         }
 
@@ -136,8 +139,6 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
         if ("ACCEPTED" == orders.status.toUpperCase())
             stockTransactionService.deductStock(orders)
 
-        // update all change status need push notification to customer's order/checkout.
-        orderService.pushNotification(orders)
         render JSONFormat.respondSingleObject(orders) as JSON
     }
 

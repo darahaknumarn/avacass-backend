@@ -15,7 +15,7 @@ class OrderService {
      * @param order
      * @return
      */
-    def pushNotification(Orders orders) {
+    def pushNotification(Orders orders, String status) {
         String title = ""
         String shortDescription = ""
         JSON json = new JSON(orders)
@@ -23,7 +23,8 @@ class OrderService {
         // get customer base on orders/checkout of product.
         def username = Customer.findAllById(orders.customerId).username
         title = "Order Update"
-        String body = "Your order ${orders.orderNo} at Avacass has been updated ${orders.status}"
+        String body = "Your order ${orders.orderNo} at Avacass has been updated ${status}"
+        println(body)
 
         switch (orders.status.toUpperCase()) {
             case "REJECT" : shortDescription = "${body} ${orders.rejectReason}"
