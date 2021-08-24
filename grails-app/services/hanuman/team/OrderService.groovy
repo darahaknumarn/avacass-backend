@@ -5,11 +5,16 @@ import grails.converters.JSON
 import grails.gorm.transactions.Transactional
 import hanuman.notification.Notification
 import hanuman.security.SecUser
+import hanuman.simplegenericrestfulcontroller.generic.JSONFormat
+import hanuman.simplegenericrestfulcontroller.generic.StatusCode
+
+import java.util.stream.Collectors
 
 @Transactional
 class OrderService {
 
     def notificationContentService
+    def applicationConfigurationService
     /**
      * Notify to customer, when admin update/changed status to "Accepted"
      * @param order
@@ -27,7 +32,7 @@ class OrderService {
         println(body)
 
         switch (orders.status.toUpperCase()) {
-            case "REJECT" : shortDescription = "${body} ${orders.rejectReason}"
+            case "REJECTED" : shortDescription = "${body} ${orders.rejectReason}"
                 break
 
             case "DELIVERED" : shortDescription = body
@@ -77,4 +82,24 @@ class OrderService {
         )
         notificationContentService.pushNotification(ntc)
     }
+
+    /**
+     * update status accepted, delivered, Reject change close to 'true'
+     * @param status
+     */
+    def updateOrderComplete(Orders order) {
+        def completeOrderStatus = applicationConfigurationService.getApplicationConfigurationByNameAndIsActive("CompleteOrderStatus")
+        if (!completeOrderStatus) {
+            return order
+        }
+
+        def val = JSON.parse(completeOrderStatus?.value)
+        // search in list of order status.
+        Integer indexOf = val.findIndexOf { cos -> cos.name.toUpperCase() == order.status.toUpperCase()}
+        if (indexOf != -1)
+            order.isClosed = true
+
+        return order
+    }
+
 }

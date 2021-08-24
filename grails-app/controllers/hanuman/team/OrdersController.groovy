@@ -134,6 +134,9 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
             render JSONFormat.respondSingleObject(null, StatusCode.Invalid, StatusCode.Invalid.description, getError(orders)) as JSON
             return
         }
+        // update is close of order transaction
+        orders = orderService.updateOrderComplete(orders)
+
         orders.save(flush: true)
         // deduct stock of product, when status order accepted.
         if ("ACCEPTED" == orders.status.toUpperCase())
