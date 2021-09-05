@@ -1,5 +1,11 @@
 ---
 grails:
+    controllers:
+        upload:
+            maxFileSize: 104857600
+            maxRequestSize: 104857600
+---
+grails:
     profile: web
     codegen:
         defaultPackage: hanuman.team
@@ -103,8 +109,8 @@ environments:
     development:
         dataSource:
             dbCreate: update
-            url: jdbc:mysql://127.0.0.1:3306/dev_avacass?useUnicode=yes&characterEncoding=UTF-8
-#            url: jdbc:mysql://172.30.30.23/avc?useUnicode=yes&characterEncoding=UTF-8
+            #url: jdbc:mysql://192.168.1.10:3306/dev_avacass?useUnicode=yes&characterEncoding=UTF-8
+            url: jdbc:mysql://178.128.97.84/staging_avacass?useUnicode=yes&characterEncoding=UTF-8
     test:
         dataSource:
             dbCreate: update
@@ -131,8 +137,8 @@ environments:
     production:
         dataSource:
             dbCreate: update
-            url: jdbc:mysql://127.0.0.1:3306/staging_avacass?useUnicode=yes&characterEncoding=UTF-8
-#            password: 'Online@!##S123'
+            url: jdbc:mysql://127.0.0.1:3306/pre-prod-avacass?useUnicode=yes&characterEncoding=UTF-8
+            password: 'Online@!##S123'
             properties:
                 jmxEnabled: true
                 initialSize: 5
@@ -165,8 +171,8 @@ environments:
     development:
         grails:
             redis:
-                host: "127.0.0.1"
-#                password: P@ssw0rd
+                host: "178.128.97.84"
+                password: V5-yyWDUG7=B[
     test:
         grails:
             redis:
@@ -176,7 +182,7 @@ environments:
         grails:
             redis:
                 host: "127.0.0.1"
-                password: V5-yyWDUG7=B[
+                password: HT@R3dI$@2021
 ---
 grails:
     plugin:
