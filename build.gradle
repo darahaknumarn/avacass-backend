@@ -66,6 +66,7 @@ dependencies {
     compile 'tech.hanuman:core-backend:1.1.3'
     compile 'org.grails.plugins:mail:3.0.0'
     compile group: 'org.grails', name: 'grails-web-gsp', version: '3.2.12'
+    implementation 'tech.hanuman:dynamic-workflow:1.9'
 }
 
 bootRun {
