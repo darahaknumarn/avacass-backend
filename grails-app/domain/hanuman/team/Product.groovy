@@ -25,6 +25,11 @@ class Product extends BaseDomain{
     String imageUrl
     Boolean isTopsSale = false
     Boolean isRecommend  = false
+
+    String barcode
+    Date expiredDate
+    String supplier
+    String binLocationCode
     static hasMany = [productImage:ProductImage, relatedProduct: RelatedProduct]
 
     static hasOne = [stockBalance: StockBalance]
@@ -43,6 +48,11 @@ class Product extends BaseDomain{
         productImage cascade: "all-delete-orphan"
         relatedProduct cascade: "all-delete-orphan"
         stockBalance cascade: "all-delete-orphan"
+
+        barcode nullable: true
+        expiredDate nullable: true
+        supplier nullable: true
+        binLocationCode nullable: true
     }
 
     static {
