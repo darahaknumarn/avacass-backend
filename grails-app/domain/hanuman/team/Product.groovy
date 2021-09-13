@@ -13,14 +13,14 @@ class Product extends BaseDomain{
     Long vendorId
     String vendorName
     Double price
-    Double compareAtPrice
-    Double cost
-    Double rate
+    Double compareAtPrice = 0.0
+    Double cost = 0.0
+    Double rate = 0.0
     Boolean isChargeTax = false
     String sku
     Boolean isTrackingQty
     Boolean isSellOutOfStock
-    Double margin
+    Double margin = 0.0
     Boolean status
     String imageUrl
     Boolean isTopsSale = false
@@ -30,6 +30,16 @@ class Product extends BaseDomain{
     Date expiredDate
     String supplier
     String binLocationCode
+
+    // UoM
+    String uomName
+    Long uomId
+
+    // product qty
+    Float reOrderPoint
+    Float minimumStockQty
+
+
     static hasMany = [productImage:ProductImage, relatedProduct: RelatedProduct]
 
     static hasOne = [stockBalance: StockBalance]

@@ -22,7 +22,11 @@ class UrlMappings {
         "/api/orderActivity"(resources:"OrderActivity")
         "/api/orderActivity/comment"(controller:"OrderActivity", action: "addComment")
 
+        // Purchase
+        "/api/purchase"(resources: "Purchase")
 
+        // UoM
+        "/api/uom"(resources: "UoM")
 
         // Application Configuration
         "/api/applicationConfiguration/getDeliveryDestination"(controller: "ApplicationConfiguration" , action: "getDeliveryDestination")
