@@ -1,5 +1,7 @@
 package hanuman.team
 
+import grails.converters.JSON
+
 class Purchase {
     Long vendorId
     String vendorName
@@ -17,5 +19,13 @@ class Purchase {
     static constraints = {
         note nullable: true
         purchaseDetails cascade: "all-delete-orphan"
+    }
+
+    static {
+        JSON.registerObjectMarshaller(this, { Purchase purchase ->
+            Map result = new LinkedHashMap(purchase.properties)
+            result.id = purchase.id
+            return result
+        })
     }
 }
