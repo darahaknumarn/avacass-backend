@@ -3,6 +3,7 @@ package hanuman.team
 import grails.converters.JSON
 
 class Purchase {
+    String code
     Long vendorId
     String vendorName
     Date purchaseDate = new Date()

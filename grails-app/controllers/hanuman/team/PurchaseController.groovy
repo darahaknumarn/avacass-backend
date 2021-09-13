@@ -10,26 +10,44 @@ class PurchaseController extends SimpleGenericRestfulController<Purchase>{
         super(Purchase)
     }
 
+    def nextCodeService
+
     def index(PaginationCommand paginationCommand) {
-        Date purDate = null
-        if (params.purchaseDate)
-            purDate = params.date("purchaseDate", "yyyy-MM-dd")?.plus(1)?.clearTime()
+        Date fromDate = null
+        Date toDate = null
+        if (params.fromDate)
+            fromDate = params.date("fromDate", "yyyy-MM-dd")
+
+        if (params.toDate)
+            toDate = params.date("toDate", "yyyy-MM-dd")?.plus(1)?.clearTime()
 
         def purchase = Purchase.createCriteria().list(paginationCommand.params) {
-            if (params.vendorName) {
-                like("vendorName", "%${params.vendorName}%")
+            if(params.code){
+                like("code" , "%${params.code}%")
             }
-            if (params.categoryName) {
-                like("categoryName", "%${params.categoryName}%")
+            if (params.vendorId) {
+                eq("vendorId", params.long("vendorId"))
+            }
+            if (params.categoryId) {
+                like("categoryId", params.long("categoryId"))
             }
             if (params.status) {
                 eq("status", params.status)
             }
-            if (purDate){
-                eq("purchaseDate", purDate)
+            if (fromDate){
+                ge("purchaseDate", fromDate)
+            }
+            if (toDate) {
+                le("purchaseDate", toDate)
             }
         }
 
         render JSONFormat.respond(purchase) as JSON
+    }
+
+    @Override
+    def beforeSave(Purchase purchase) {
+        purchase.code = nextCodeService.getLastCode("Purchase" , true ,[:])
+        return purchase
     }
 }
