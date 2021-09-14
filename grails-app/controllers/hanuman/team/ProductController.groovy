@@ -29,6 +29,9 @@ class ProductController extends SimpleGenericRestfulController<Product> {
             if (params.vendorId) {
                 eq("vendorId", params.long("vendorId"))
             }
+            if (params.barcode) {
+                eq("barcode", params.barcode)
+            }
         }
 
         respond JSONFormat.respond(list)
