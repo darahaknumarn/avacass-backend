@@ -64,13 +64,17 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
     @Override
     def beforeSave(Orders orders) {
         orders.orderNo = nextCodeService.getLastCode("Order" , true ,[:])
+        def appConfig = applicationConfigurationService.getApplicationConfigurationByNameAndIsActive("DeliveryFee")
+        orders.deliveryFee = Double.parseDouble(appConfig.value)
+        orders.totalQty = orders.orderDetail.qty.sum()
+        orders.status = OrderStatus.Pending.toString()
         return orders
     }
 
     @Override
     def afterSaved(Orders orders) {
-        // reserve stock
-        stockTransactionService.reserveStock(orders)
+        // deducted stock
+        stockTransactionService.deductStock(orders)
         return orders
     }
 
@@ -78,7 +82,7 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
     @Override
     def beforeUpdate(Orders order) {
         def user = springSecurityService.getCurrentUser()
-        if (order.status.toUpperCase() == "REJECT") {
+        if (order.status.toUpperCase() == OrderStatus.Rejected.desc ) {
             order.rejectBy = (user?.firstName ?: "" + user?.lastName ?: "")
             order.rejectDate = new Date()
         }
@@ -138,8 +142,11 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
         orders = orderService.updateOrderComplete(orders)
 
         orders.save(flush: true)
-        // deduct stock of product, when status order accepted.
-        if ("ACCEPTED" == orders.status.toUpperCase())
+        if (OrderStatus.Rejected.desc == orders.status.toUpperCase())
+            // return stock as normal
+            stockTransactionService.returnStockBalance(orders)
+        else
+            // deducted stock.
             stockTransactionService.deductStock(orders)
 
         render JSONFormat.respondSingleObject(orders) as JSON

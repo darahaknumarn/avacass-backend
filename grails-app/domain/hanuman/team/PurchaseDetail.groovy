@@ -13,7 +13,13 @@ class PurchaseDetail {
     // adding qty
     Float qty
 
+    // Set default
+    Date expiredDate
+    Long warehouseId = 1
+
     static belongsTo = [purchase: Purchase]
     static constraints = {
+        expiredDate nullable: true
+        warehouseId nullable: true
     }
 }

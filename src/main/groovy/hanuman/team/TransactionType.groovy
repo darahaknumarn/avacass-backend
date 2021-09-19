@@ -3,7 +3,7 @@ package hanuman.team
 enum TransactionType {
     PURCHASE("Purchase"),
     ADJUST_STOCK("AdjustStock"),
-    SALE("Sale")
+    SALE_RETURN("Sale Return")
 
     String status
 
