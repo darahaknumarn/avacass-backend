@@ -32,6 +32,9 @@ class ProductController extends SimpleGenericRestfulController<Product> {
             if (params.barcode) {
                 eq("barcode", params.barcode)
             }
+            if (params.status) {
+                eq("status", params.boolean("status"))
+            }
         }
 
         respond JSONFormat.respond(list)
@@ -39,9 +42,17 @@ class ProductController extends SimpleGenericRestfulController<Product> {
 
     @Override
     def beforeSave(Product product){
-
-
         return productService.mapImageToProduct(product)
+    }
+
+    @Override
+    def afterSaved(Product product) {
+        // adding stock balance
+        new StockBalance(
+                productId: product.id,
+                stockBalance: product.availableStockQty
+        ).save(flush: true)
+        return product
     }
 
     @Override
