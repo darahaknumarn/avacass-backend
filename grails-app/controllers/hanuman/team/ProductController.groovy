@@ -60,5 +60,17 @@ class ProductController extends SimpleGenericRestfulController<Product> {
         return productService.mapImageToProduct(product)
     }
 
+    @Override
+    def delete( ){ // soft delete
+        def product = Product.get(params.id)
+        if (product.status.equals(true))
+            product.status = false
+        else
+            product.status = true
+
+        product.save(flush:true )
+        respond JSONFormat.respondSingleObject(product)
+    }
+
 
 }
