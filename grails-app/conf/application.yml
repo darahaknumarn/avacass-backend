@@ -1,5 +1,11 @@
 ---
 grails:
+    controllers:
+        upload:
+            maxFileSize: 104857600
+            maxRequestSize: 104857600
+---
+grails:
     profile: web
     codegen:
         defaultPackage: hanuman.team
