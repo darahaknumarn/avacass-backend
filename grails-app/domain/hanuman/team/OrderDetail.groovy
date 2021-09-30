@@ -1,5 +1,6 @@
 package hanuman.team
 
+import grails.converters.JSON
 import hanuman.team.base.BaseDomain
 
 class OrderDetail extends BaseDomain{
@@ -30,5 +31,16 @@ class OrderDetail extends BaseDomain{
         vendorName nullable: true
         vendorId nullable: true
 
+    }
+    static {
+        JSON.registerObjectMarshaller(this, { OrderDetail order ->
+            Map result = new LinkedHashMap(order.properties)
+            result.id = order.id
+            def product = Product.get(order.productId)
+            result.barcode = product?.barcode
+            result.locationCode = product?.binLocationCode
+            result.remove("orders")
+            return result
+        })
     }
 }
