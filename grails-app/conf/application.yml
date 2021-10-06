@@ -110,7 +110,8 @@ environments:
         dataSource:
             dbCreate: update
             #url: jdbc:mysql://192.168.1.10:3306/dev_avacass?useUnicode=yes&characterEncoding=UTF-8
-            url: jdbc:mysql://178.128.97.84/staging_avacass?useUnicode=yes&characterEncoding=UTF-8
+            url: jdbc:mysql://localhost/staging_avacass?useUnicode=yes&characterEncoding=UTF-8
+#            url: jdbc:mysql://178.128.97.84/staging_avacass?useUnicode=yes&characterEncoding=UTF-8
     test:
         dataSource:
             dbCreate: update
@@ -171,8 +172,9 @@ environments:
     development:
         grails:
             redis:
-                host: "178.128.97.84"
-                password: V5-yyWDUG7=B[
+#                host: "178.128.97.84"
+#                password: V5-yyWDUG7=B[
+                host: "127.0.0.1"
     test:
         grails:
             redis:

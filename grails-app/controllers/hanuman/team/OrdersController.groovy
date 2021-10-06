@@ -159,4 +159,16 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
         order.save(flush:true )
         respond JSONFormat.respondSingleObject(order)
     }
+
+
+    def packed(){
+        def order =   Orders.get(params.id)
+        println "-------------"
+        println getAuthenticatedUser()
+        order.isPacked = true
+        order.packedBy =getAuthenticatedUser()
+        order.packedDate = new Date()
+        order.save(flush:true )
+        respond JSONFormat.respondSingleObject(order)
+    }
 }
