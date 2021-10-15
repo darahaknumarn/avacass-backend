@@ -102,4 +102,25 @@ class OrderService {
         return order
     }
 
+    /**
+     * Push Notification, when finish order
+     * @param orders
+     * @return
+     */
+    def pushNotificationFinishOrder(Orders orders) {
+        JSON json = new JSON(orders)
+        HashMap<String, Object> order = new ObjectMapper().readValue(json.toString(), HashMap.class)
+
+        // get customer base on orders/checkout of product.
+        def username =  Customer.findAllById(orders.customerId).username
+        Notification ntc = new Notification(
+                userDevices: username,
+                title: "Purchase Order",
+                shortDescription: "Your order ${orders.orderNo} at Avacass has been ${orders.status}",
+                nType: "Transaction",
+                content: order
+        )
+        notificationContentService.pushNotification(ntc)
+    }
+
 }

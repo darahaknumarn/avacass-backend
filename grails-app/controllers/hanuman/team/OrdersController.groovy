@@ -75,6 +75,9 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
     def afterSaved(Orders orders) {
         // deducted stock
         stockTransactionService.deductStock(orders)
+
+        // notify customer / user purchase
+        orderService.pushNotificationFinishOrder(orders)
         return orders
     }
 

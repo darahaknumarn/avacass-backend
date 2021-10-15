@@ -25,7 +25,7 @@ class Orders extends BaseDomain {
     Boolean isEditable = false
     Boolean isDeleted = false
     Boolean isClosed = false
-    String status = PaymentStatus.PENDING.status
+    String status = OrderStatus.Accepted.desc
     Integer assignTo
 
     String rejectReason
