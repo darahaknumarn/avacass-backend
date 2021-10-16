@@ -9,6 +9,7 @@ class UrlMappings {
             }
         }
         "/api/orders"(resources: "Orders")
+        "/api/orders/packed"(controller: "orders" , action: "packed")
         "/api/customer"(resources: "Customer")
         "/api/category"(resources: "Category")
         "/api/product"(resources:"Product" )

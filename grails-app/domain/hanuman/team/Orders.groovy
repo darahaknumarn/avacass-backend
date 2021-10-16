@@ -28,6 +28,11 @@ class Orders extends BaseDomain {
     String status = OrderStatus.Accepted.desc
     Integer assignTo
 
+//    for picking up
+    Boolean isPacked = false
+    String packedBy // get current user name
+    Date  packedDate // current date
+
     String rejectReason
     Date rejectDate
     String rejectBy
@@ -35,6 +40,10 @@ class Orders extends BaseDomain {
     static  hasMany = [orderDetail: OrderDetail]
 
     static constraints = {
+        isPacked nullable: true
+        packedBy nullable: true
+        packedDate nullable: true
+
         cartId nullable: true
         status nullable: true
         dateCreated nullable:true
