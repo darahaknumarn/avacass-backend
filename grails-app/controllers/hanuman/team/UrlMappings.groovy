@@ -26,6 +26,9 @@ class UrlMappings {
         // Purchase
         "/api/purchase"(resources: "Purchase")
 
+        // stock adjustment
+        "/api/stockAdjustment"(resources: "StockAdjustment")
+
         // UoM
         "/api/uom"(resources: "UoM")
 
