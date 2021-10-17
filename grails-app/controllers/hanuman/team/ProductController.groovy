@@ -35,6 +35,13 @@ class ProductController extends SimpleGenericRestfulController<Product> {
             if (params.status) {
                 eq("status", params.boolean("status"))
             }
+
+            if (params.search) {
+                or {
+                    like("title", "%${params.name}%")
+                    eq("barcode", params.barcode)
+                }
+            }
         }
 
         respond JSONFormat.respond(list)
