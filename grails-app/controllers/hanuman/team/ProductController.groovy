@@ -39,7 +39,7 @@ class ProductController extends SimpleGenericRestfulController<Product> {
             if (params.search) {
                 or {
                     like("title", "%${params.name}%")
-                    eq("barcode", params.barcode)
+                    like("barcode", "%${params.barcode}%")
                 }
             }
         }
