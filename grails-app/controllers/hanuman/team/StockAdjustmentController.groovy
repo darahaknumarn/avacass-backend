@@ -46,4 +46,21 @@ class StockAdjustmentController extends SimpleGenericRestfulController<StockAdju
         render  JSONFormat.respond(stockAdj , StatusCode.OK) as JSON
         return stockAdj
     }
+
+    @Override
+    def delete() {
+        def stockAdj = StockAdjustment.get(params.long('id'))
+
+        stockAdj.productAdjustments.each { proAdj ->
+             Date expDate = proAdj.expiredDate?.clearTime()
+            // find stock balance
+            def stb = StockBalance.findByProductIdAndExpiredDate(proAdj.productId, expDate)
+            if (stb) {
+                stb.stockBalance -= proAdj.adjustQty
+                stb.save(flush: true)
+            }
+        }
+        stockAdj.save(flush:true )
+        respond JSONFormat.respondSingleObject(stockAdj)
+    }
 }
