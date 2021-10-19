@@ -60,7 +60,7 @@ class StockAdjustmentController extends SimpleGenericRestfulController<StockAdju
                 stb.save(flush: true)
             }
         }
-        stockAdj.save(flush:true )
+        stockAdj.delete(flush:true )
         respond JSONFormat.respondSingleObject(stockAdj)
     }
 }
