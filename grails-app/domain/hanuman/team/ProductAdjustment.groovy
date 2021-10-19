@@ -16,5 +16,6 @@ class ProductAdjustment {
     static constraints = {
         comment nullable: true
         description nullable: true
+        expiredDate nullable: true
     }
 }

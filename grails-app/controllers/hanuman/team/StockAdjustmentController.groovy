@@ -30,7 +30,7 @@ class StockAdjustmentController extends SimpleGenericRestfulController<StockAdju
             render stockAdj as JSON
             return
         }
-
+        stockAdj.adjustBy = getPrincipal().username
         // validation object of stock adjustment
         stockAdj.validate()
         if (stockAdj.hasErrors()) {

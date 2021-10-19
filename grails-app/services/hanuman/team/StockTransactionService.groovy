@@ -185,15 +185,25 @@ class StockTransactionService {
 
     def stockAdjustment(StockAdjustment stocks) {
         stocks.productAdjustments.each { pa ->
-            Date expDate = pa.expiredDate.clearTime()
+            Date expDate = pa.expiredDate?.clearTime()
             // find stock balance
-            def stb = StockBalance.findByProductIdAndExpiredDateBetween(pa.productId, expDate, expDate.plus(1))
+
+            def stb = StockBalance.findByProductIdAndExpiredDate(pa.productId, expDate)
             if (stb) {
-                
+
                 // adjust stock balance
+
                 stb.stockBalance += pa.adjustQty
                 stb.save(flush: true)
+            }else{
+                def stockBalance = StockBalance.create()
+                stockBalance.productId = pa.productId
+                stockBalance.expiredDate = pa.expiredDate
+                stockBalance.stockBalance = pa.adjustQty
+                stockBalance.reserveQty = 0
+                stockBalance.save(flush:true )
             }
+
         }
 
     }
