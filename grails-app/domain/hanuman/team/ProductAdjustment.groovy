@@ -27,6 +27,7 @@ class ProductAdjustment {
             def sBalance = StockBalance.findAllByProductId(pa.productId).stockBalance.sum()
             result.id = pa.id
             result.stockBalance = sBalance?sBalance: 0.0
+            result.remove("stockAdjustment")
             return result
         })
     }
