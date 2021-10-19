@@ -1,5 +1,7 @@
 package hanuman.team
 
+import grails.converters.JSON
+
 class ProductAdjustment {
 
     Long productId
@@ -17,5 +19,15 @@ class ProductAdjustment {
         comment nullable: true
         description nullable: true
         expiredDate nullable: true
+    }
+
+    static {
+        JSON.registerObjectMarshaller(this, { ProductAdjustment pa ->
+            Map result = new LinkedHashMap(pa.properties)
+            def sBalance = StockBalance.findAllByProductId(pa.productId).stockBalance.sum()
+            result.id = pa.id
+            result.stockBalance = sBalance?sBalance: 0.0
+            return result
+        })
     }
 }
