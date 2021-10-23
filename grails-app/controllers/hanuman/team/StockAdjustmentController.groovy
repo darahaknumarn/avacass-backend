@@ -9,6 +9,8 @@ import hanuman.simplegenericrestfulcontroller.generic.StatusCode
 
 class StockAdjustmentController extends SimpleGenericRestfulController<StockAdjustment>{
 
+    def stockTransactionService
+
     StockAdjustmentController() {
         super(StockAdjustment)
     }
@@ -38,6 +40,7 @@ class StockAdjustmentController extends SimpleGenericRestfulController<StockAdju
         }
 
         // stock adjust for stock balance
+        stockTransactionService.stockAdjustment(stockAdj)
 
         stockAdj.save(flush:true)
         render  JSONFormat.respond(stockAdj , StatusCode.OK) as JSON
