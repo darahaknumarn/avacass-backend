@@ -113,14 +113,14 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
             return
         }
         def user = springSecurityService.getCurrentUser()
-        String currentUsername = (user?.firstName ?: "" + user?.lastName ?: "")
+        String currentUsername = user
         def json = request.JSON
 
         // check assignee
         if (json.assignTo) {
             if(json.assignTo != orders.assignTo){
                 def secUser = SecUser.get(json.assignTo as Long)
-                orderActivityService.addActivity(user?.id as Long ,currentUsername, OrderActivityType.ASSIGN , "assigned to <b>${(secUser?.firstName ?: "" + secUser?.lastName ?: "")}</b>" , orders.id )
+                orderActivityService.addActivity(user?.id as Long ,currentUsername, OrderActivityType.ASSIGN , "assigned to <b>${(secUser?.username)}</b>" , orders.id )
                 // push notification to assignee
                 orderService.pushNotificationToAssignee(orders)
             }
