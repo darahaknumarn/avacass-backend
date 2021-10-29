@@ -40,6 +40,9 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
             if(params.customerId){
                 eq("customerId" , params.customerId as Long)
             }
+            if(params.customerName){
+                like("customerName","%${params.customerName}%")
+            }
             if(params.status){
                 like("status","%${params.status}%")
             }
