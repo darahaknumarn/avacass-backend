@@ -21,5 +21,7 @@ class PurchaseDetail {
     static constraints = {
         expiredDate nullable: true
         warehouseId nullable: true
+        imageUrl nullable: true
+        description nullable: true
     }
 }
