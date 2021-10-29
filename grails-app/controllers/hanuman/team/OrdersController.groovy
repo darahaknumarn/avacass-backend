@@ -40,8 +40,17 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
             if(params.customerId){
                 eq("customerId" , params.customerId as Long)
             }
+            if(params.search){
+                or {
+                    eq("customerName",params.search)
+                    like("orderNo" , "%${params.search}%")
+                }
+            }
             if(params.status){
                 like("status","%${params.status}%")
+            }
+            if(params.isPacked){
+                eq("isPacked" , Boolean.parseBoolean(params.isPacked))
             }
             if(params.isFullFilled){
                 eq("isFullFilled" , Boolean.parseBoolean(params.isFullFilled))
@@ -104,14 +113,14 @@ class OrdersController extends SimpleGenericRestfulController<Orders>{
             return
         }
         def user = springSecurityService.getCurrentUser()
-        String currentUsername = (user?.firstName ?: "" + user?.lastName ?: "")
+        String currentUsername = user
         def json = request.JSON
 
         // check assignee
         if (json.assignTo) {
             if(json.assignTo != orders.assignTo){
                 def secUser = SecUser.get(json.assignTo as Long)
-                orderActivityService.addActivity(user?.id as Long ,currentUsername, OrderActivityType.ASSIGN , "assigned to <b>${(secUser?.firstName ?: "" + secUser?.lastName ?: "")}</b>" , orders.id )
+                orderActivityService.addActivity(user?.id as Long ,currentUsername, OrderActivityType.ASSIGN , "assigned to <b>${(secUser?.username)}</b>" , orders.id )
                 // push notification to assignee
                 orderService.pushNotificationToAssignee(orders)
             }

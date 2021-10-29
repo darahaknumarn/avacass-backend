@@ -36,7 +36,7 @@ class OrderActivityController extends SimpleGenericRestfulController<OrderActivi
     def addComment () {
         def json = request.JSON
         def user = springSecurityService.getCurrentUser()
-        String currentUsername = (user?.firstName ?: "" + user?.lastName ?: "")
+        String currentUsername = user
 
         def adt = orderActivityService.addActivity(user?.id as Long, currentUsername, OrderActivityType.COMMENT,"<span style='color:green'>${json.comment} </span>", json.orderId as Long)
         render JSONFormat.respondSingleObject(adt) as JSON
