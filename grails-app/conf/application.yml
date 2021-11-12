@@ -103,7 +103,7 @@ dataSource:
     dialect : org.hibernate.dialect.MySQL5InnoDBDialect
     username: developer
     password: 'P@ssw0rd'
-    logSql: true
+    logSql: false
 
 environments:
     development:

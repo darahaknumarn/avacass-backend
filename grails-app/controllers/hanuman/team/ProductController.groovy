@@ -35,6 +35,9 @@ class ProductController extends SimpleGenericRestfulController<Product> {
             if (params.status) {
                 eq("status", params.boolean("status"))
             }
+            if(params.reOrder){
+                gtProperty('minimumStockQty' , 'stockBalance')
+            }
 
             if (params.search) {
                 or {
