@@ -29,7 +29,7 @@ repositories {
         url 'https://maven.pkg.github.com/darahaknumarn/core'
         credentials {
             username = 'darahaknumarn'
-            password ='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'
+            password =project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN") // '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'
         }
     }
 }
