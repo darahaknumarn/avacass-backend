@@ -103,13 +103,13 @@ dataSource:
     dialect : org.hibernate.dialect.MySQL5InnoDBDialect
     username: developer
     password: 'P@ssw0rd'
-    logSql: false
+    logSql: true
 
 environments:
     development:
         dataSource:
             dbCreate: update
-            url: jdbc:mysql://192.168.1.10:3306/dev_avacass?useUnicode=yes&characterEncoding=UTF-8
+            url: jdbc:mysql://localhost:3306/staging_avacass?useUnicode=yes&characterEncoding=UTF-8
 #            url: jdbc:mysql://172.30.30.23/avc?useUnicode=yes&characterEncoding=UTF-8
     test:
         dataSource:
@@ -171,8 +171,8 @@ environments:
     development:
         grails:
             redis:
-                host: "192.168.1.10"
-                password: P@ssw0rd
+                host: "localhost"
+#                password: P@ssw0rd
     test:
         grails:
             redis:

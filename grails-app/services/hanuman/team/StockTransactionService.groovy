@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull
 @Transactional
 class StockTransactionService {
 
+    def stockBalanceService
     // Every order has been deduct stock of product.
     def deductStock(Orders order) {
         def sBalance = null
@@ -22,6 +23,7 @@ class StockTransactionService {
             // save stock balance
             saveTransaction(TransactionType.ADJUST_STOCK.status, order.id, orderDetail.productId, orderDetail.qty)
             sBalance.save(flush: true)
+            stockBalanceService.updateStockBalance(orderDetail.productId)
         }
     }
 
@@ -39,6 +41,7 @@ class StockTransactionService {
 
             // record in stock transaction
             sBalance.save(flush: true)
+            stockBalanceService.updateStockBalance(orderDetail.productId)
             saveTransaction(TransactionType.SALE_RETURN.status, order.id, orderDetail.productId, orderDetail.qty)
         }
     }
@@ -203,6 +206,8 @@ class StockTransactionService {
                 stockBalance.reserveQty = 0
                 stockBalance.save(flush:true )
             }
+
+            stockBalanceService.updateStockBalance(pa.productId)
 
         }
 

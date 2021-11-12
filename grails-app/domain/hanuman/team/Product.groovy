@@ -39,6 +39,7 @@ class Product extends BaseDomain{
     Float reOrderPoint
     Float minimumStockQty
     Float availableStockQty
+    Float stockBalance=0
 
 
     static hasMany = [productImage:ProductImage, relatedProduct: RelatedProduct]
@@ -62,15 +63,17 @@ class Product extends BaseDomain{
         expiredDate nullable: true
         supplier nullable: true
         binLocationCode nullable: true
+        stockBalance nullable: true
     }
 
     static {
-        JSON.registerObjectMarshaller(this, { Product pr ->
-            Map result = new LinkedHashMap(pr.properties)
-            def sBalance = StockBalance.findAllByProductId(pr.id).stockBalance.sum()
-            result.id = pr.id
-            result.stockBalance = sBalance?sBalance: 0.0
-            return result
-        })
+//        JSON.registerObjectMarshaller(this, { Product pr ->
+//            Map result = new LinkedHashMap(pr.properties)
+//            def sBalance = StockBalance.findAllByProductId(pr.id).stockBalance.sum()
+//            result.id = pr.id
+//            result.stockBalance = sBalance?sBalance: 0.0
+//
+//            return result
+//        })
     }
 }
