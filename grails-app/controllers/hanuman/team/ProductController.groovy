@@ -46,7 +46,10 @@ class ProductController extends SimpleGenericRestfulController<Product> {
                 }
             }
         }
+//         in case user export excel file
+        if(params.export){
 
+        }
         respond JSONFormat.respond(list)
     }
 
