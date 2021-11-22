@@ -25,14 +25,14 @@ repositories {
     mavenLocal()
     maven { url "https://repo.grails.org/artifactory/core" }
     maven { url "https://repo.grails.org/grails/core" }
-//    maven { url "http://178.128.97.84:8081/repository/core-backend" }
-    maven {
-        url 'https://maven.pkg.github.com/darahaknumarn/core'
-        credentials {
-            username = 'darahaknumarn'
-            password =project.findProperty("gpr.key") ?: System.getenv("MAVENTOKEN") // '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'
-        }
-    }
+    maven { url "http://178.128.97.84:8081/repository/core-backend" }
+//    maven {
+//        url 'https://maven.pkg.github.com/darahaknumarn/core'
+//        credentials {
+//            username = 'darahaknumarn'
+//            password =project.findProperty("gpr.key") ?: System.getenv("MAVENTOKEN") // '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'
+//        }
+//    }
 }
 
 dependencies {
