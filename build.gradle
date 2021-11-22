@@ -25,14 +25,14 @@ repositories {
     mavenLocal()
     maven { url "https://repo.grails.org/artifactory/core" }
     maven { url "https://repo.grails.org/grails/core" }
-    maven { url "http://178.128.97.84:8081/repository/core-backend" }
-//    maven {
-//        url 'https://maven.pkg.github.com/darahaknumarn/core'
-//        credentials {
-//            username = 'darahaknumarn'
-//            password =project.findProperty("gpr.key") ?: System.getenv("MAVENTOKEN") // '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'
-//        }
-//    }
+//    maven { url "http://178.128.97.84:8081/repository/core-backend" }
+    maven {
+        url 'https://maven.pkg.github.com/darahaknumarn/core'
+        credentials {
+            username = 'darahaknumarn'
+            password =project.findProperty("gpr.key") ?: System.getenv("MAVENTOKEN") // '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'
+        }
+    }
 }
 
 dependencies {
@@ -74,6 +74,12 @@ dependencies {
     compile 'org.grails.plugins:mail:3.0.0'
     compile group: 'org.grails', name: 'grails-web-gsp', version: '3.2.12'
     implementation 'tech.hanuman:dynamic-workflow:1.9'
+
+
+    // Excel
+    compile 'builders.dsl:spreadsheet-builder-poi:2.2.1'
+    // for groovy support
+    compile 'builders.dsl:spreadsheet-builder-groovy:2.2.1'
 }
 
 bootRun {
