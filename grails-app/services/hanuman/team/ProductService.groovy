@@ -56,7 +56,7 @@ class ProductService {
         def productImage = product.productImage.find {
             it.isBaseImage == true
         }
-        product.imageUrl =  productImage?.thumbnailUrl
+        product.imageUrl =  productImage?.largeUrl
         return product
     }
 
