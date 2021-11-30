@@ -27,7 +27,7 @@ class OrderService {
         // get customer base on orders/checkout of product.
         def username = Customer.findAllById(orders.customerId).username
         String title = "Order Update"
-        String body = translateService.translateTo(orders.status, orders.language)
+        String body = translateService.translateTo(status, orders.language)
 
         Notification ntc = new Notification(
                 userDevices: username,
