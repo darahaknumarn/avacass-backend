@@ -15,47 +15,24 @@ class OrderService {
 
     def notificationContentService
     def applicationConfigurationService
+    def translateService
     /**
      * Notify to customer, when admin update/changed status to "Accepted"
      * @param order
      * @return
      */
     def pushNotification(Orders orders, String status) {
-        String title = ""
-        String shortDescription = ""
         JSON json = new JSON(orders)
         HashMap<String, Object> order = new ObjectMapper().readValue(json.toString(), HashMap.class)
         // get customer base on orders/checkout of product.
         def username = Customer.findAllById(orders.customerId).username
-        title = "Order Update"
-        String body = "Your order ${orders.orderNo} at Avacass has been updated ${status}"
-        println(body)
-
-        switch (orders.status.toUpperCase()) {
-            case "REJECTED" : shortDescription = "${body} ${orders.rejectReason}"
-                break
-
-            case "DELIVERED" : shortDescription = body
-                break
-
-            case "ACCEPTED" : shortDescription = body
-                break
-
-            default: shortDescription = body
-                break
-
-            return shortDescription
-        }
-
-        if(!"PENDING".equals(orders.paymentStatus.toUpperCase())) {
-            title = "Payment Update"
-            shortDescription = "Thank you for your payment of order ${orders.orderNo}"
-        }
+        String title = "Order Update"
+        String body = translateService.translateTo(orders.status, orders.language)
 
         Notification ntc = new Notification(
                 userDevices: username,
                 title: title,
-                shortDescription: shortDescription,
+                shortDescription: body.replace("{#}", orders.orderNo),
                 nType: "Transaction",
                 content: order
         )

@@ -37,6 +37,9 @@ class Orders extends BaseDomain {
     Date rejectDate
     String rejectBy
 
+    // Adding Language
+    String language
+
     static  hasMany = [orderDetail: OrderDetail]
 
     static constraints = {
@@ -57,7 +60,8 @@ class Orders extends BaseDomain {
         rejectReason nullable: true
         rejectBy nullable: true
         rejectDate nullable: true
-        assignTo nullable:  true 
+        assignTo nullable:  true
+        language nullable:  true
     }
 
     static {
