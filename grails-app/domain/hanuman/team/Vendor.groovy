@@ -7,7 +7,7 @@ class Vendor extends BaseDomain {
     String description
     Boolean isPopular = false
     String imageUrl
-
+    static hasMany = [vendorCategory:VendorCategory]
     static constraints = {
         name nullable:true
         dateCreated nullable:true
@@ -16,5 +16,6 @@ class Vendor extends BaseDomain {
         lastUpdateBy nullable:true
         description sqlType:'text' , nullable:true
         imageUrl nullable: true
+        vendorCategory cascade: "all-delete-orphan"
     }
 }

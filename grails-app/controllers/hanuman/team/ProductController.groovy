@@ -114,5 +114,4 @@ class ProductController extends SimpleGenericRestfulController<Product> implemen
         respond JSONFormat.respondSingleObject(product)
     }
 
-
 }
