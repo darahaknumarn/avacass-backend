@@ -19,6 +19,7 @@ class ProductAdjustment {
         comment nullable: true
         description nullable: true
         expiredDate nullable: true
+        imageUrl nullable:  true
     }
 
     static {
